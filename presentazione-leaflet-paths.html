@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/black.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/monokai.min.css" integrity="sha256-/d3ZZC6Gr1V8JDi9Os6A2CjemarhIv16pw1Q6snL+lM=" crossorigin="anonymous" />
+    <title>Javascript: librerie e framework</title>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- 0 -->
+        <section data-markdown>
+          # Leaflet.js
+
+          ## Una libreria per creare mappe dinamiche
+        </section>
+
+        <!-- 1 -->
+        <section data-markdown>
+          # Alternative
+          - [OpenLayers](https://openlayers.org/)
+          - [Google Maps](https://developers.google.com/maps/documentation)
+          - ...
+        </section>
+        
+        <!-- 2 -->
+        <section data-markdown>
+          # Info
+
+          - Autore iniziale: Vladimir Agafonkin
+          - Data del primo rilascio: 13 maggio 2011
+          - Versione più recente: 1.6.0 (17 novembre 2019)
+          - Repository: [github.com/Leaflet/Leaflet](https://github.com/Leaflet/Leaflet)
+          - Linguaggio: JavaScript
+          - Licenza: BSD-2-Clause[1]
+          - Sito web: [leafletjs.com](https://leafletjs.com)
+        </section>
+        
+        <!-- 3 -->
+        <section data-markdown>
+          ## Info
+
+          Leaflet is the leading open-source JavaScript library for mobile-friendly interactive maps. Weighing just about 38 KB of JS, it has all the mapping features most developers ever need.
+
+          Leaflet is designed with simplicity, performance and usability in mind. It works efficiently across all major desktop and mobile platforms, can be extended with lots of plugins, has a beautiful, easy to use and well-documented API and a simple, readable source code that is a joy to contribute to.
+
+          Fonte: https://leafletjs.com/
+        </section>
+        
+        <!-- 4 -->
+        <section data-markdown>
+          Le funzioni di Leaflet sono raccolte nella variabile `L`.
+        </section>
+      
+      
+        <!-- 5 -->
+        <section data-markdown>
+          # Creare una mappa
+          dalla A alla Z
+
+          Esempio: https://jbogdani.github.io/didattica-2019-2020/leaflet-paths
+        </section>
+      
+      <!-- 6 -->
+        <section>
+          <!-- 6.1 -->
+          <section data-markdown>
+            Iniziare con un documento HTML vuoto
+          </section>
+
+          <!-- 6.2 -->
+          <section data-markdown>
+  <textarea data-template>
+```html
+<!doctype html>
+<html lang="it">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>La mia prima mappa con Leaflet</title>
+  </head>
+
+  <body>
+
+  </body>
+
+</html>
+  ```
+  </textarea>
+        </section>
+      </section>
+
+      <!-- 7 -->
+      <section>
+        <!-- 7.1 -->
+        <section data-markdown>
+          Includere la libreria, sia il CSS che il JS entro l'elemento `head` della pagina
+          
+          Rif.: https://leafletjs.com/examples/quick-start/#preparing-your-page
+        </section>
+
+        <!-- 7.2 -->
+        <section data-markdown>
+<textarea data-template>
+```html
+<head>
+  ...
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+</head>
+
+```
+</textarea>
+        </section>
+      </section>
+      
+      <!-- 8 -->
+      <section>
+        <!-- 8.1 -->
+        <section data-markdown>
+          Inserire nel `body` un elemento che conterrà la mappa.
+            L'elemento deve avere un attributo `id` univoco, es. `elemento-mappa`.
+        </section>
+
+        <!-- 8.2 -->
+        <section data-markdown>
+<textarea data-template>
+```html
+<body>
+  <div id="elemento-mappa"></div>
+</body>
+
+```
+</textarea>
+        </section>
+      </section>
+      
+      <!-- 9 -->
+      <section>
+        <!-- 9.1 -->
+        <section data-markdown>
+          L'elemento `div#elemento-mappa` deve avere un'altezza e una larghezza.
+
+          Aggiungiamo nel `head` un elemento style che lo renda largo e alto quanto la pagina.
+        </section>
+
+        <!-- 9.2 -->
+        <section data-markdown>
+<textarea data-template>
+```html
+<head>
+  ...
+  <style>
+    html,
+    body,
+    #elemento-mappa{
+        margin:0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    }
+  </style>
+</head>
+
+```
+</textarea>
+        </section>
+      </section>
+      
+      <!-- 10 -->
+      <section>
+        <!-- 10.1 -->
+        <section data-markdown>
+          La pagina è finita. 
+          
+          Aggiungo un elemento `script`  prima della chiusura di `body` che 
+          conterrà tutto il codice JS necessario per popolare la mappa
+          di contenuti e configurarla.
+        </section>
+
+        <!-- 10.2 -->
+        <section data-markdown>
+<textarea data-template>
+```html
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>La mia prima mappa con Leaflet</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    
+    <style>
+        html,
+        body,
+        #elemento-mappa{
+            margin:0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="elemento-mappa"></div>
+
+    <script>
+      // Qui il codice per avviare la mappa
+    </script>
+  </body>
+</html>
+```
+</textarea>
+        </section>
+      </section>
+      
+      <!-- 11 -->
+      <section>
+        <!-- 11.1 -->
+        <section data-markdown>
+          Gli “ingredienti” della mappa:
+        </section>
+
+        <!-- 11.2 -->
+        <section data-markdown>
+          1. Una mappa di base generica, per esempio Open Street Maps,
+          che possiamo reperire qui: https://wiki.openstreetmap.org/wiki/Tile_servers
+        </section>
+        
+        <!-- 11.3 -->
+        <section data-markdown>
+          2. Oppure una mappa di base specifica,
+          p.es. la cartografia dell'Egitto creata sotto Napoleone e 
+          lavorata e pubblicata da PAThs
+          L'URL è: http://xyz.paths-erc.eu/jacotin-1827/{z}/{x}/{y}.png
+        </section>
+        
+        <!-- 11.4 -->
+        <section data-markdown>
+          3. Ho bisogno, inoltre delle coordinate di un punto su cui centrare la mappa,
+          es. le coordinate del Cairo che posso ricavare da Google Maps:
+
+          `30.0594885,31.2584644`
+        </section>
+
+        <!-- 11.5 -->
+        <section data-markdown>
+          4. Infine, usero un'altra cartografia elaborato dal progetto PAThs
+          che contiene le piante degli edifici di culto cristiano in Egitto.
+
+          Questa mappa viene trasmessa in *streaming* (protocollo [WMS](https://it.wikipedia.org/wiki/Web_Map_Service)):
+          `http://wms.paths-erc.eu/site-maps` e contiene vari layer:
+          - All site maps (Phases < 0)
+          - All site maps (Phase 0)
+          - All site maps (Phase 1)
+          - All site maps (Phase 2)
+          - All site maps (Phases > 2)
+        </section>
+      </section>
+      
+      <!-- 12 -->
+      <section>
+        <!-- 12.1 -->
+        <section data-markdown>
+        Inizializzo una costante che chiamo per commodità `mappa`
+        usando il metodo `map` dell'oggetto `L`.
+
+        rif.: https://leafletjs.com/reference-1.6.0.html#map-factory.
+
+        Come parametro fornisco l'id dell'elemento che conterrà a mappa,
+        nel mio caso `elemento-mappa`
+        </section>
+
+        <!-- 12.2 -->
+        <section data-markdown>
+          ```js
+          const mappa = L.map('elemento-mappa');
+          ```
+        </section>
+      </section>
+      
+      <!-- 13 -->
+      <section>
+        <!-- 13.1 -->
+        <section data-markdown>
+        Centro la mappa sul Cairo usando il metodo `setView` (rif.: https://leafletjs.com/reference-1.6.0.html#map-setview)
+
+        Il primo parametro è un array con le coordinate, latitudine e longitudine.
+        Il secondo parametro è il livello desiderato di zoom.
+        </section>
+
+        <!-- 13.2 -->
+        <section data-markdown>
+          ```js
+          mappa.setView([30.0594885,31.2584644], 9);
+          ```
+        </section>
+      </section>
+      
+      <!-- 14 -->
+      <section>
+        <!-- 14.1 -->
+        <section data-markdown>
+        Creo un layer Leaflet usando le tiles di Open Street Maps.
+        Uso il metodo tileLayer di Leaflet (rif.: https://leafletjs.com/reference-1.6.0.html#tilelayer)
+        e fornisco due parametri:
+        - l'URL dove si trovano le tiles che ho ricavato da https://wiki.openstreetmap.org/wiki/Tile_servers
+        - un oggeto contenente una serie di opzioni, in questo caso solo l'attribuzione di copyright e licenza
+        </section>
+
+        <!-- 14.2 -->
+        <section data-markdown>
+          ```js
+          const osm = L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+          });
+          ```
+        </section>
+      </section>
+      
+      <!-- 14 -->
+      <section>
+        <!-- 14.1 -->
+        <section data-markdown>
+        Faccio lo stesso con la cartografia Napoleonica, defininendo un ulteriore parametro di `maxZoom`.
+        </section>
+
+        <!-- 14.2 -->
+        <section data-markdown>
+          ```js
+          const napoleonic_maps = L.tileLayer('http://xyz.paths-erc.eu/jacotin-1827/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://paths.uniroma1.it/">PAThs: Archaeological Atlas of Coptic Literature</a>',
+            maxZoom: 15
+        });
+          ```
+        </section>
+
+        <!-- 14.3 -->
+        <section data-markdown>
+          Leggeremente più articolata è la creazione del layer WMS, visto che oltre all'URL
+          è necessario fornire anche la lista dei sotto-layer che si vuole caricare, separati da virgole.
+          
+          Aggiungo anche il parametro opzionale della trasparenza e del massimo lovello di zoom possibile.
+        </section>
+
+        <!-- 14.4 -->
+        <section data-markdown>
+          ```js
+          const site_maps = L.tileLayer.wms('http://wms.paths-erc.eu/site-maps', {
+            layers: "All site maps (Phases < 0),All site maps (Phase 0),All site maps (Phase 1),All site maps (Phase 2),All site maps (Phases > 2)",
+            format: 'image/png',
+            transparent: true,
+            maxZoom: 25
+          });
+          ```
+        </section>
+
+        <!-- 14.5 -->
+        <section data-markdown>
+          I tre layer `osm`, `napoleonic_maps` e `site_maps` sono stati creati, ma non sono stati ancora aggiunti alla mappa.
+
+          Aggiungo il primo usando il metodo `addTo` (https://leafletjs.com/reference-1.6.0.html#layer-addto).
+
+          Come unico parametro del metodo fornisco l'oggetto che contiene la mappa, ovvero la costante `mappa`
+        </section>
+
+        <!-- 14.4 -->
+        <section data-markdown>
+          ```js
+          osm.addTo(mappa);
+          ```
+        </section>
+      </section>
+
+      <!-- 15 -->
+      <section>
+        <section>TL;DR</section>
+        <section data-markdown>
+        ```js
+        const mappa = L.map('elemento-mappa').setView([30.0594885,31.2584644], 9);
+
+        const osm = L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+        }).addTo(mappa);
+        
+        const napoleonic_maps = L.tileLayer('http://xyz.paths-erc.eu/jacotin-1827/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://paths.uniroma1.it/">PAThs: Archaeological Atlas of Coptic Literature</a>',
+            maxZoom: 15
+        });
+
+        const site_maps = L.tileLayer.wms('http://wms.paths-erc.eu/site-maps', {
+          layers: "All site maps (Phases < 0),All site maps (Phase 0),All site maps (Phase 1),All site maps (Phase 2),All site maps (Phases > 2)",
+          format: 'image/png',
+          transparent: true,
+          maxZoom: 25
+        });
+        ```
+        </section>
+      </section>
+      
+      <!-- 16 -->
+      <section>
+        <section data-markdown>
+          Creo un gestore dei layers per potere accendere o spegnere a piacimento i vari layer che ho a disposizione.
+
+          Per fare questo devo creare due oggetti: uno con la lista dei layer di base e uno con quelli sovrapposti,
+          e li fornisco come parametri del gestore dei layers, ovvero `L.control.layers` (https://leafletjs.com/reference-1.6.0.html#control-layers)
+          che poi aggiungo alla mappa.
+        </section>
+        <section data-markdown>
+        ```js
+        const baseMaps = {
+          "Carta napoleonica": napoleonic_maps,
+          "Open Street Mapa": osm
+        };
+
+        const overlayMaps = {
+          "Planimetrie dei siti": site_maps
+        }
+
+        L.control.layers(baseMaps, overlayMaps).addTo(mappa);
+        ```
+        </section>
+      </section>
+      
+      <!-- 17 -->
+      <section data-markdown>
+        La mappa è pronta e ho già a disposizione vari tipo di layer che posso attivare e in parte sovraporre.
+      </section>
+
+      <!-- 18 -->
+      <section>
+        
+        <!-- 18.1 -->
+        <section data-markdown>
+          Un ultimo passo è quello di aggiungere una tipologia ulteriore di dati
+          vettoriali e caricati da una sorgente remota, che può essere un file residente in un altro server
+          o un servizio dinamico che pubblica dati GIS attraverso una API.
+
+          Il formato di interscambio più diffuso per i dati geografici è il [GeoJSON](https://it.wikipedia.org/wiki/GeoJSON).
+        </section>
+        
+        <!-- 18.2 -->
+        <section data-markdown>
+          Il GeoJSON è un formato aperto per la codifica di dati geo-spaziali, che utilizza il 
+          JSON (JavaScript Object Notation) per registrare informazioni sulle geometrie e gli attributi.
+
+          Una sua estensione capace di rappresentare le topologie spaziali è il TopoJSON.
+
+          - https://geojson.org/
+          - https://github.com/topojson/topojson
+        </section>
+
+        <!-- 18.3 -->
+        <section data-markdown>
+          A sua volta il JavaScript Object Notation (JSON) è un formato facilmente leggibile da 
+          umani e macchine, articolarmente adatto all'interscambio di dati fra applicazioni client/server.
+
+          È basato sul linguaggio JavaScript Standard ECMA-262 3ª edizione (dicembre 1999), ma ne è indipendente.
+          
+          - https://www.json.org/json-en.html
+          - https://json.it/1/oggetto_javascript
+        </section>
+
+        <!-- 18.4 -->
+        <section data-markdown>
+```js
+{
+  "type": "FeatureCollection",
+  "features": [
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  31.255061,
+                  29.849491
+              ]
+          },
+          "properties": {
+              "id": "1",
+              "name": "Memphis",
+              "pleiades": "736963"
+          }
+      },
+      ...
+```
+        </section>
+      </section>
+
+      <!-- 19 -->
+      <section>
+        
+        <!-- 19.1 -->
+        <section data-markdown>
+          Come prima cosa devo recuperare il contenuto del file remoto.
+          Userò per questo la nuova funzione sperimentale `fetch` (https://developer.mozilla.org/it/docs/Web/API/Fetch_API)
+          che non è ancora supportato da tutti gli browser e quindi 
+          viene sconsigliato il suo uso in produzione.
+        </section>
+
+        <!-- 19.1 -->
+        <section data-markdown>
+          L'URL dove si trovano i dati che ci interessano è:
+          https://raw.githubusercontent.com/paths-erc/data/master/atlas/dumps/places/all-places.geojson
+
+          Fetch ha delle funzioni interne per transformare in JSON i dati ricevuti
+        </section>
+        
+        <!-- 19.2 -->
+        <section data-markdown>
+          ```js
+          const url = "https://raw.githubusercontent.com/paths-erc/data/master/atlas/dumps/places/all-places.geojson";
+
+          fetch(url)
+            .then( response => response.json() )
+            .then( json => carica_dati_sulla_mappa(json) );
+          ```
+        </section>
+
+        <!-- 19.3 -->
+        <section data-markdown>
+          In ultima istanza `fetch` chiama una funzione che si occuperà di lavorare i dati.
+          Nel caso presente si tratta della funzione `carica_dati_sulla_mappa` alla quale
+          vengono forniti come parametro i dati i formti JSON.
+        </section>
+        
+        <!-- 19.4 -->
+        <section data-markdown>
+          È quindi necessario definire la funzione `carica_dati_sulla_mappa` che si
+          occuperà di caricare i dati ricevuti sulla mappa. 
+        </section>
+
+        <!-- 19.4 -->
+        <section data-markdown>
+<textarea data-template>
+```js
+function carica_dati_sulla_mappa(geojson) {
+  const places = L.geoJSON(geojson);
+  places.bindPopup( function(layer){
+      const html = `<h2>${layer.feature.properties.name}</h2>
+      <a href="https://atlas.paths-erc.eu/places/${layer.feature.properties.id}" target="_blank">Vedi nell'atlante di PAThs</a>
+      <br>
+      <a href="https://pleiades.stoa.org/places/${layer.feature.properties.pleiades}" target="_blank">Vedi in Pleiades</a>
+      `;
+      return html;
+    });
+  places.addTo(mappa);
+}
+```
+</textarea>
+        </section>
+
+        <!-- 19.5 -->
+        <section data-markdown>
+          `L.geoJSON` (https://leafletjs.com/reference-1.6.0.html#geojson) è 
+          il costruttore di Leaflet per caricare 
+          dati geografici in formato geojson.
+
+          Il costruttore accetta come parametro i dati in formato GeoJSON.
+
+          ```js
+          const places = L.geoJSON(geojson);
+          ```
+        </section>
+
+        <!-- 19.6 -->
+        <section data-markdown>
+          Ai marker che segnalano i singoli punti è possibile associare un popup
+          che si apre al click, usando il metodo `bindPopup` (https://leafletjs.com/reference-1.6.0.html#layer-bindpopup).
+          Il metodo accetta come parametro una funzione che deve restituire una stringa html,
+          che diventa il contenuto del popup.
+
+          Alla funzione viene dato come parametro il layer cliccato.
+
+          ```js
+          places.bindPopup( function(layer){ ... } )
+          ```
+        </section>
+
+        <!-- 19.7 -->
+        <section data-markdown>
+<textarea data-template>
+          Nel caso presente la funzione compone e restituisce una stringa HTML con il
+          nome del sito usato come intestazione di secondo livello,
+          e due link: uno ad db PAThs e uno a Pleiades.
+          ```js
+          places.bindPopup( function(layer){
+            const html = `<h2>${layer.feature.properties.name}</h2>
+            <a href="https://atlas.paths-erc.eu/places/${layer.feature.properties.id}" target="_blank">Vedi nell'atlante di PAThs</a>
+            <br>
+            <a href="https://pleiades.stoa.org/places/${layer.feature.properties.pleiades}" target="_blank">Vedi in Pleiades</a>
+            `;
+            return html;
+          }
+          ```
+</textarea>
+        </section>
+        <!-- 19.8 -->
+        <section data-markdown>
+          Le proprietà di ogni elemento vengono raggiunte
+          con la sintassi: `layer.feature.properties['nome attributo']
+
+          Finalmente aggiuno ilnuovo layer alla mappa.
+        </section>
+
+
+        <!-- 19.9 -->
+        <section data-markdown>
+<textarea data-template>
+```js
+function carica_dati_sulla_mappa(geojson) {
+  const places = L.geoJSON(geojson);
+  places.bindPopup( function(layer){
+      const html = `<h2>${layer.feature.properties.name}</h2>
+      <a href="https://atlas.paths-erc.eu/places/${layer.feature.properties.id}" target="_blank">Vedi nell'atlante di PAThs</a>
+      <br>
+      <a href="https://pleiades.stoa.org/places/${layer.feature.properties.pleiades}" target="_blank">Vedi in Pleiades</a>
+      `;
+      return html;
+    });
+  places.addTo(mappa);
+}
+```
+</textarea>
+        </section>
+      </section>
+
+      <!-- 20 -->
+      <section>
+        <!-- 20.1 -->
+        <section data-markdown>
+          La mappa è ora completa!
+        </section>
+        
+        <!-- 20.2 -->
+        <section data-markdown>
+<textarea data-template>
+```html
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>La mia prima mappa con Leaflet</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    
+    <style>
+        html,
+        body,
+        #elemento-mappa{
+            margin:0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="elemento-mappa"></div>
+
+    <script>
+        
+        const mappa = L.map('elemento-mappa').setView([30.0594885,31.2584644], 9);
+
+        const osm = L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+        });
+        
+        const napoleonic_maps = L.tileLayer('http://xyz.paths-erc.eu/jacotin-1827/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://paths.uniroma1.it/">PAThs: Archaeological Atlas of Coptic Literature</a>',
+            maxZoom: 15
+        }).addTo(mappa);
+
+        const site_maps = L.tileLayer.wms('http://wms.paths-erc.eu/site-maps', {
+          layers: "All site maps (Phases < 0),All site maps (Phase 0),All site maps (Phase 1),All site maps (Phase 2),All site maps (Phases > 2)",
+          format: 'image/png',
+          transparent: true,
+          maxZoom: 25
+        });
+
+        const baseMaps = {
+          "Carta napoleonica": napoleonic_maps,
+          "Open Street Mapa": osm
+        };
+
+        const overlayMaps = {
+          "Planimetrie dei siti": site_maps
+        }
+
+        L.control.layers(baseMaps, overlayMaps).addTo(mappa);
+        
+        const url = "https://raw.githubusercontent.com/paths-erc/data/master/atlas/dumps/places/all-places.geojson";
+
+        fetch(url)
+          .then( response => response.json() )
+          .then( json => carica_dati_sulla_mappa(json) );
+
+        function carica_dati_sulla_mappa(geojson) {
+
+          const places = L.geoJSON(geojson, opzioniGeoJson)
+            .bindPopup( function(layer){
+              const html = `<h2>${layer.feature.properties.name}</h2>
+              <a href="https://atlas.paths-erc.eu/places/${layer.feature.properties.id}" target="_blank">Vedi nell'atlante di PAThs</a>
+              <br>
+              <a href="https://pleiades.stoa.org/places/${layer.feature.properties.pleiades}" target="_blank">Vedi in Pleiades</a>
+              `;
+              return html;
+            })
+            .addTo(mappa);
+        }
+    </script>
+  </body>
+</html>
+```
+</textarea>
+        </section>
+
+        <!-- 20.3 -->
+        <section data-markdown>
+          Esempio: 
+        
+          https://jbogdani.github.io/didattica-2019-2020/leaflet-paths
+        </section>
+
+      </section>
+
+
+      <!-- 21 -->
+      <section data-markdown>
+        A proposito, 
+
+        anche questa presemtazione è realizzata grazie ad una libreria javascript,
+        [Reveal.js](https://revealjs.com/#/)
+      </section>
+
+        
+
+
+
+
+
+
+
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/js/reveal.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/marked.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/markdown.min.js" crossorigin="anonymous"></script>
+
+  <script>
+    Reveal.initialize({
+      hash: true,
+      dependencies: [
+        {
+          src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/highlight/highlight.js',
+          async: true,
+          callback: function() { hljs.initHighlightingOnLoad(); }
+        }
+      ]
+    });
+  </script>
+  </body>
+</html>
